@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/emc-service.iml" filepath="$PROJECT_DIR$/emc-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/emc-service.common.iml" filepath="$PROJECT_DIR$/common/emc-service.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dao/emc-service.dao.iml" filepath="$PROJECT_DIR$/dao/emc-service.dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/emc-service.domain.iml" filepath="$PROJECT_DIR$/domain/emc-service.domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/emc-service.service.iml" filepath="$PROJECT_DIR$/service/emc-service.service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/emc-service.web.iml" filepath="$PROJECT_DIR$/web/emc-service.web.iml" />
+    </modules>
+  </component>
+</project>
