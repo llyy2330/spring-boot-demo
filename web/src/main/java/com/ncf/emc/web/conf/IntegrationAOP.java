@@ -11,6 +11,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,14 +47,24 @@ public class IntegrationAOP {
         StringBuilder methodSB = new StringBuilder();
         String methodName = joinPoint.getSignature().getName();
         String logId = "";
+
         try {
+
+            RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+            HttpServletRequest request = sra.getRequest();
+
+            String url = request.getRequestURL().toString();
+
+            HttpServletResponse res=  sra.getResponse();
+            res.setCharacterEncoding("utf-8");
+
             Object[] args = joinPoint.getArgs();
             if (args != null) {
                 for (int i = 0; i < args.length; i++) {
                     Object obj = args[i];
                     if (obj instanceof HttpServletRequest) {
                     } else if (obj instanceof HttpServletResponse) {
-                        HttpServletResponse aa = (HttpServletResponse) obj;
                     } else {
                         if (obj != null) {
                             methodSB.append("args:[").append(JSON.toJSONString(obj)).append("]");
@@ -68,7 +81,7 @@ public class IntegrationAOP {
                 }
             }
             Object retVal = joinPoint.proceed();
-            log.info("logId:{},end  method : " + methodName + "()," + "retVal=" + (null == retVal ? "" : JSON.toJSONString(retVal)), logId);
+            log.info("logId:{},end  method : " + methodName + "()," + "result:" + (null == retVal ? "" : JSON.toJSONString(retVal)), logId);
             return retVal;
         } catch (Exception e) {
             log.error("logId:{},error:", logId, e);

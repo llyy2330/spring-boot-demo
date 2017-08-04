@@ -41,6 +41,7 @@ mybatis:
 mapper:
     mappers:
         - com.ncf.emc.dao.base.BaseMapper
+        - tk.mybatis.mapper.common.special.InsertListMapper
     not-empty: false
     identity: MYSQL
     style: camelhump

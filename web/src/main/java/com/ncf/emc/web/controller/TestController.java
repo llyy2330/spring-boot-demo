@@ -51,7 +51,8 @@ public class TestController {
     private TestService testService;
 
 
-    @RequestMapping(method = RequestMethod.GET, path = "city", produces = "application/json;;charset=UTF-8")
+//    @RequestMapping(method = RequestMethod.GET, path = "city", produces = "application/json;;charset=UTF-8")
+    @RequestMapping(method = RequestMethod.GET, path = "city")
     public Result getAll(@Validated TestReqVo testReqVo) {
         return new Result(testService.test());
     }

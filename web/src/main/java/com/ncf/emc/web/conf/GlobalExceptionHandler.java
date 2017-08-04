@@ -8,6 +8,7 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,13 +31,8 @@ public class GlobalExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        log.error("全局捕获异常-类型:{}", e.getClass().toString());
-        log.error("全局捕获异常-信息:{}", e.getMessage());
-        log.error("全局捕获异常-栈:{}", e.getStackTrace());
-
+        log.error("error:", e);
         Result result=new Result();
-
-
         String msg = null;
         if (e instanceof BusinessException) {
             BusinessException exception = (BusinessException) e;
@@ -58,6 +54,22 @@ public class GlobalExceptionHandler {
 
         } else if (e instanceof BindException) {
 
+            BindException bindException=(BindException) e;
+
+           List<ObjectError> list= bindException.getAllErrors();
+
+            if(list!=null){
+                for (ObjectError error:list ) {
+                    if(error instanceof  FieldError){
+                        FieldError fieldError=(FieldError) error;
+                        String fieldName= fieldError.getField();
+                        String fieldMsg=fieldError.getDefaultMessage();
+                        msg=fieldName+":"+fieldMsg+"|";
+                    }
+                }
+            }
+            result.setCode(ReturnCodeEnum.RESTFUL_REQUEST_OBJECT_INVALID.value());
+            result.setMsg(msg);
 
         } else {
             result.setCode(ReturnCodeEnum.UNKNOWN_FAIL.value());

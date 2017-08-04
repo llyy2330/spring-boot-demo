@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Data
 public class TestReqVo {
-//    @NotBlank
+    @NotBlank
     private String name;
     private String code;
 
